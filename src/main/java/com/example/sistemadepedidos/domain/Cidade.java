@@ -1,6 +1,8 @@
 package com.example.sistemadepedidos.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cidade implements Serializable{
@@ -18,21 +21,40 @@ public class Cidade implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	private String nome;
+	private String nome;	
 
+	@OneToMany(mappedBy = "cidade")
+	private List<Endereco> enderecos = new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name="id_estado")
+	private Estado estado;
+	
 	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.estado = estado;
 	}
-
-	@ManyToOne
-	@JoinColumn(name="estado_id")
-	private Estado estado;
 	
 	public Cidade() {
 		
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -58,6 +80,14 @@ public class Cidade implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
