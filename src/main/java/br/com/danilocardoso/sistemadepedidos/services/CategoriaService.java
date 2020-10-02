@@ -51,7 +51,8 @@ public class CategoriaService {
 		} catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria com produtos");
 		}
-
 	}
+	
+	
 
 }

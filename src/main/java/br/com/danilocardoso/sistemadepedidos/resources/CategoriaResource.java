@@ -2,6 +2,7 @@ package br.com.danilocardoso.sistemadepedidos.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.danilocardoso.sistemadepedidos.domain.Categoria;
+import br.com.danilocardoso.sistemadepedidos.dto.CategoriaDTO;
 import br.com.danilocardoso.sistemadepedidos.services.CategoriaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -24,10 +26,10 @@ public class CategoriaResource {
 	private CategoriaService service;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<Categoria>> findAll() throws ObjectNotFoundException {
-		List<Categoria> obj = service.findAll();	
-		
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<List<CategoriaDTO>> findAll() throws ObjectNotFoundException {
+		List<Categoria> list = service.findAll();	
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
