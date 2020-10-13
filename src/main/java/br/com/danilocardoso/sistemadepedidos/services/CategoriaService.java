@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.danilocardoso.sistemadepedidos.domain.Categoria;
+import br.com.danilocardoso.sistemadepedidos.dto.CategoriaDTO;
 import br.com.danilocardoso.sistemadepedidos.repositories.CategoriaRepository;
 import br.com.danilocardoso.sistemadepedidos.services.exceptions.DataIntegrityException;
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -60,7 +61,10 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
 		return repo.findAll(pageRequest);
-		
+	}
+	
+	public Categoria fromDto(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 }
